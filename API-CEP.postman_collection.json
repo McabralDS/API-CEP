@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "88fb5840-e4c3-4a5b-9021-127e7f6c1cab",
+		"name": "API-CEP",
+		"description": "Api para consulta de CEP e Endereços utilizando ViaCep e Cache",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "consultaCep",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "api",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cep\":\"89082209\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/consulta/cep",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"consulta",
+						"cep"
+					]
+				},
+				"description": "Consulta endereço a partir do CEP"
+			},
+			"response": []
+		},
+		{
+			"name": "Health-Check",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/health_check",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"health_check"
+					]
+				},
+				"description": "Valida status da API"
+			},
+			"response": []
+		},
+		{
+			"name": "consultaEndereco",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "api",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"estado\": \"SC\",\r\n    \"cidade\": \"indaial\",\r\n    \"rua\": \"nacoes\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/consulta/endereco",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"consulta",
+						"endereco"
+					]
+				},
+				"description": "Consulta CEP a partir do Estado, Cidade e Rua"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "12345",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "api",
+				"type": "string"
+			}
+		]
+	}
+}
