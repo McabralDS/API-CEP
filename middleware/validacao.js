@@ -1,6 +1,7 @@
 const {check, validationResult} = require('express-validator');
 
 
+// Valida parametros do request da busca por cep
 exports.cep = [
             check('cep')
                 .trim()
@@ -10,6 +11,7 @@ exports.cep = [
                 .withMessage('CEP deve conter apenas números.')   
         ]
 
+// Valida parametros do request da busca por endereco
 exports.endereco = [
             check('estado')
                 .trim()
@@ -32,7 +34,7 @@ exports.endereco = [
             
         ]
 
-
+// Retorna Array de erros formatado
 exports.erros = (req) => {
 
     const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {

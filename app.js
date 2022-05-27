@@ -4,7 +4,7 @@ const express = require('express');
 const basicAuth = require('express-basic-auth');
 const Auth = require('./middleware/auth.js'); 
 const bodyParser = require('body-parser');
-
+const NodeCache = require('node-cache');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,19 +32,25 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', 'true');
 
     next();
-    
 });
 
 
 // APP ROUTES
 const health_check = require('./routes/health_check.router.js');
 const consulta_cep = require('./routes/consulta_cep.router.js');
-const NodeCache = require('node-cache');
 
 // Rotas
 app.use('/health_check', health_check);
 app.use('/consulta', consulta_cep);
 
+// Tratamento de erros
+app.use((err, req, res, next) => {
+    if (err) {
+        res.status(400).json({msg: "Ocorrn um erro inesperado"});
+    }
+    
+    next();
+})
 
 // Start server
 app.listen(port, () => console.log(`API rodando na porta: ${port}!`));

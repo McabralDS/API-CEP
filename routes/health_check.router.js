@@ -1,8 +1,8 @@
 // Rota Health Check
 const express = require('express');
-
 let health_check = express.Router();
 
+// Rota Health Check
 health_check.get('/', (req, res) => {
     res.json({
         "api": process.env.API_NAME,

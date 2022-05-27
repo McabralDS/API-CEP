@@ -2,6 +2,7 @@ const request = require('request');
 
 const Request = {
 
+    // Requisião para consulta por CEP
     consultaCep: (cep) => {
 
         return new Promise( (resolve, reject) => {
@@ -19,6 +20,7 @@ const Request = {
     
     },
 
+    // Requisição para consulta por Endereço
     consultaEndereco: (estado, cidade, rua) => {
 
         return new Promise( (resolve, reject) => {

@@ -6,28 +6,27 @@ const _ = require('lodash');
 
 const ConsultaCep = {
 
+    // Busca endereço por cep
     buscaPorCep: async (req, res) => {
 
         let stat, response, endereco;
         let errors = Validacao.erros(req);
         let param = req.body;
 
-      
+        // Valida se o request é valido
         if (!_.isEmpty(errors)) {
             stat = 400;
             response = { erro: errors };
         } else {
 
-            let cepCache = ConsultaCep.cepCache(param.cep);
+            // Verifica CEP no cache
+            let cepCache = Cache.get(param.cep);
 
-            if (!cepCache) {
-                endereco = await Request.consultaCep(param.cep);
+            // Se não existir no cache, busca na viacep
+            endereco = !cepCache ? await Request.consultaCep(param.cep) : cepCache;
+           
 
-                Cache.set(param.cep, endereco);
-            } else {
-                endereco = cepCache;
-            }
-
+            // Se ocorrer erro durante a busca
             if (endereco.erro) {
                 stat = 400;
                 response = {
@@ -36,6 +35,10 @@ const ConsultaCep = {
                     origem: (cepCache) ? 'cache' : 'viacep',
                 }
             } else {
+
+                // Salva cep no cache
+                Cache.set(param.cep, endereco);
+
                 stat = 200;
                 response = {
                     status: 'OK',
@@ -51,19 +54,22 @@ const ConsultaCep = {
 
     },
 
+    // Busca endereço por Estado, cidade e rua
     buscaPorEndereco: async (req, res) => {
         let stat, response;
         let errors = Validacao.erros(req);
         let param = req.body;
 
-      
+        // Valida se o request é valido
         if (!_.isEmpty(errors)) {
             stat = 400;
             response = { erro: errors };
         } else {
 
+            // Busca CEP na viacep
             let endereco = await Request.consultaEndereco(param.estado, param.cidade, param.rua);
 
+            // Se ocorrer erro durante a busca
             if (endereco.erro) {
                 stat = 400;
                 response = {
@@ -82,12 +88,6 @@ const ConsultaCep = {
         }
 
         res.status(stat).json(response);
-    },
-
-    cepCache:  (cep) => {
-
-       return Cache.get(cep);
-
     }
 }
 

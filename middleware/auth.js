@@ -1,7 +1,8 @@
 const basicAuth = require('express-basic-auth')
 
-Auth = {
+const Auth = {
    
+    // Regra de usuario e senha
     regra: (username, password) => {
 
         const userMatches = basicAuth.safeCompare(username, process.env.USER);
@@ -10,6 +11,7 @@ Auth = {
         return userMatches & passwordMatches
     },
 
+    // função para remover rota especifica da autenticação 
     unless:(path, middleware) => {
         return (req, res, next) => {
             if (path === req.url) {
